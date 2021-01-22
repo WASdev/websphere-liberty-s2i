@@ -1,0 +1,127 @@
+#!/bin/bash -e
+#
+# (C) Copyright IBM Corporation 2016.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# re-use maven artifacts 
+
+if [ -d /tmp/artifacts/.m2 ]; then
+  echo "---> Restoring maven artifacts..."
+  mv /tmp/artifacts/.m2 ${HOME}/
+fi
+
+# S2I assemble script for the 'websphere-liberty-javaee8' image.
+
+echo "Running s2i assemble with user $USER home $HOME"
+
+# Source code provided to S2I is at /tmp/src
+LOCAL_SOURCE_DIR=/tmp/src
+
+WLP_DIR=/opt/ibm
+SERVER_DIR=${WLP_DIR}/wlp/usr/servers/defaultServer
+
+# the subdirectory within LOCAL_SOURCE_DIR from where we should copy build
+# artifacts (*.war, *.jar)
+ARTIFACT_DIR=${ARTIFACT_DIR:-target}
+
+# Resulting WAR files will be deployed to ${WLP_DIR}/wlp/usr/servers/defaultServer/dropins/
+if [ -z "$DEPLOY_TO_APPS" ]; then
+  DEPLOY_DIR=$SERVER_DIR/dropins/
+else
+  DEPLOY_DIR=$SERVER_DIR/apps/
+fi
+
+echo "Artifacts Directory: $ARTIFACT_DIR"
+
+# If a pom.xml is present, this is a normal build scenario
+# so run maven.
+if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
+
+  pushd $LOCAL_SOURCE_DIR &> /dev/null
+
+  if [ -z "$MAVEN_ARGS" ]; then
+    export MAVEN_ARGS="package -Popenshift -DskipTests"
+  fi
+
+ if [ -n "$MAVEN_MIRROR_URL" ]; then
+    xml="    <mirror>\
+      <id>mirror.default</id>\
+      <url>$MAVEN_MIRROR_URL</url>\
+      <mirrorOf>external:*</mirrorOf>\
+    </mirror>"
+    echo "Using maven mirror: $MAVEN_MIRROR_URL"
+    sed -i "s|<!-- ### configured mirrors ### -->|$xml|" $HOME/.m2/settings.xml
+  fi
+
+  # Append arguments to MAVEN_ARGS if necessary
+  if [ -n "$MAVEN_ARGS_APPEND" ]; then
+    echo "Maven additional arguments: $MAVEN_ARGS_APPEND"
+    export MAVEN_ARGS="$MAVEN_ARGS $MAVEN_ARGS_APPEND"
+  fi
+  echo "Found pom.xml... attempting to build with 'mvn ${MAVEN_ARGS}'"
+  
+  mvn --version
+  mvn $MAVEN_ARGS
+
+  ERR=$?
+  if [ $ERR -ne 0 ]; then
+    echo "Aborting due to error code $ERR from mvn package"
+    exit $ERR
+  fi
+
+  popd &> /dev/null
+fi
+
+
+if [ -f "${LOCAL_SOURCE_DIR}/Dockerfile" ] && [ -d "${LOCAL_SOURCE_DIR}/maven" ]; then
+ # This is an S2I binary build coming from fabric8-maven-plugin
+  echo "S2I binary build from fabric8-maven-plugin detected"
+  LOCAL_SOURCE_DIR=$LOCAL_SOURCE_DIR/maven
+
+  OUTPUT_DIR=$LOCAL_SOURCE_DIR
+else
+  OUTPUT_DIR=$LOCAL_SOURCE_DIR/$ARTIFACT_DIR
+fi
+
+ 
+if [ -n "${LIBERTY_RUNNABLE_JAR:-}" ]; then
+    echo "Copying runnable jar $OUTPUT_DIR/$LIBERTY_RUNNABLE_JAR to ${WLP_DIR}/runnable"
+    cp $OUTPUT_DIR/$LIBERTY_RUNNABLE_JAR ${WLP_DIR}/ol-runnable.jar
+else
+  if [ -f $LOCAL_SOURCE_DIR/src/main/liberty/config/server.xml ]; then
+    echo "Copying provided server.xml to $SERVER_DIR"
+    cp $LOCAL_SOURCE_DIR/src/main/liberty/config/server.xml $SERVER_DIR
+  fi
+
+  # Copy supporting files from OL directory
+  if [ -d $LOCAL_SOURCE_DIR/src/wlp/usr ]; then
+    cp -R $LOCAL_SOURCE_DIR/src/wlp/usr ${WLP_DIR}/wlp
+  fi
+
+
+  if [ -d $OUTPUT_DIR ]; then
+    cp  $OUTPUT_DIR/*.war $DEPLOY_DIR 2>/dev/null || :
+    cp  $OUTPUT_DIR/*.ear $DEPLOY_DIR 2>/dev/null || :
+    cp  $OUTPUT_DIR/*.jar $DEPLOY_DIR 2>/dev/null || :
+    cp  $OUTPUT_DIR/*.rar $DEPLOY_DIR 2>/dev/null || :
+  fi
+
+# Run configure again to pick up configuration from the environment (unless we're using a runnable jar)
+  echo "Configuring Server"
+  ${WLP_DIR}/helpers/build/configure.sh
+fi
+
+
+echo "Application deployment finished! Please start up the Open Liberty container using the following command: docker run -P <name of image>"
+exit $rc
