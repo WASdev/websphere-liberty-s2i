@@ -1,7 +1,7 @@
-Open Liberty UBI-min images for OpenShift S2I
+WebSphere Liberty UBI-min images for OpenShift Source To Image (S2I)
 =============================================
 
-This repository contains the source for building an Open Liberty Source to Image (S2I) builder using Red Hat Universal Base Image (UBI) 7 and either Java 8 or Java 11. 
+This repository contains the source for building a WebSphere Liberty Source to Image (S2I) builder using Red Hat Universal Base Image (UBI) 7 and either Java 8 or Java 11. 
 
 More information on S2I can be found at https://github.com/openshift/source-to-image
 
@@ -15,11 +15,16 @@ Mac OSX installation and build [tips](doc/build-mac.md).
 Cloning the repository:
 
 ```
-$ git clone https://github.com/openliberty/open-liberty-s2i
-$ cd open-liberty-s2i
+$ git clone https://github.com/WASdev/websphere-liberty-s2i
+$ cd websphere-liberty-s2i
 ```
 
 Building the Open Liberty S2I images:
+```
+$ make
+```
+
+or
 
 ```
 $ cd images/java8
@@ -34,13 +39,13 @@ using standalone [S2I](https://github.com/openshift/source-to-image) and then ru
 resulting image with [Docker](http://docker.io) execute:
 
 ```
-$ s2i build git://github.com/openshift/openshift-jee-sample openliberty/open-liberty-s2i:latest open-liberty-test
-$ docker run -p 9080:9080 open-liberty-test
+$ s2i build  https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:latest websphere-liberty-test
+$ docker run -p 9080:9080 websphere-liberty-test
 ```
 
 **Accessing the application:**
 ```
-$ curl 127.0.0.1:9080/ROOT
+$ curl 127.0.0.1:9080/ferret/
 ```
 
 Test
