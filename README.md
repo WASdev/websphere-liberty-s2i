@@ -20,18 +20,16 @@ $ cd websphere-liberty-s2i
 ```
 
 Building the Open Liberty S2I images:
-```
-$ make
-```
 
-or
+Run the Makefile to generate all images, or generate a single image by running:
 
 ```
-$ cd images/java8
-$ cekit build docker
-$ cd ../java11
+$ cd $IMAGE_DIR
 $ cekit build docker
 ```
+
+Example values for IMAGE_DIR are `images/java8/builder`, `images/java8/runtime`, `images/java11/builder`, or `images/java11/runtime`. 
+
 S2I Usage
 ---------
 To build a simple [jee application](https://github.com/openshift/openshift-jee-sample)
@@ -47,6 +45,19 @@ $ docker run -p 9080:9080 websphere-liberty-test
 ```
 $ curl 127.0.0.1:9080/ferret/
 ```
+
+S2I Runtime Images
+------------------
+Use the following commands to build and test a lightweight runtime image
+
+Use the following commands to build and test a lightweight runtime image 
+
+```
+$ s2i build https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:latest websphere-liberty-runtime-test --runtime-image ibmcom/websphere-liberty-s2i-runtime:latest --runtime-artifact /opt/ibm/wlp/usr/servers/defaultServer/dropins 
+$ docker run -p 9080:9080 websphere-liberty-runtime-test
+```
+
+More information on the WebSphere Liberty S2I runtime image and available options is available [here](doc/runtime.md).
 
 Test
 ----
