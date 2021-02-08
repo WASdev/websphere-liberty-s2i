@@ -1,8 +1,13 @@
 #!/bin/bash -e
 SCRIPT_DIR=$(dirname $0)
 
-# Build Java 8 image
-pushd ${SCRIPT_DIR}/images/java8
+# Build Java 8 builder image
+pushd ${SCRIPT_DIR}/images/java8/builder
+cekit build docker
+popd
+
+# Build Java 8 runtime image
+pushd ${SCRIPT_DIR}/images/java8/runtime
 cekit build docker
 popd
 
@@ -12,8 +17,13 @@ if [[ ! -z "${TEST_MODE:-}" ]]; then
   IMAGE_VERSION=${JAVA8_IMAGE_VERSION}; . ${SCRIPT_DIR}/test/run
 fi
 
-# Build Java 11 image
-pushd ${SCRIPT_DIR}/images/java11
+# Build Java 11 builder image
+pushd ${SCRIPT_DIR}/images/java11/builder
+cekit build docker
+popd
+
+# Build Java 11 runtime image
+pushd ${SCRIPT_DIR}/images/java11/runtime
 cekit build docker
 popd
 
@@ -22,3 +32,4 @@ if [[ ! -z "${TEST_MODE:-}" ]]; then
   echo Testing version ${JAVA11_IMAGE_VERSION}
   IMAGE_VERSION=${JAVA11_IMAGE_VERSION}; . ${SCRIPT_DIR}/test/run
 fi
+
