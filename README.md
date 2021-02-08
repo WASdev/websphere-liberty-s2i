@@ -50,8 +50,6 @@ S2I Runtime Images
 ------------------
 Use the following commands to build and test a lightweight runtime image
 
-Use the following commands to build and test a lightweight runtime image 
-
 ```
 $ s2i build https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:latest websphere-liberty-runtime-test --runtime-image ibmcom/websphere-liberty-s2i-runtime:latest --runtime-artifact /opt/ibm/wlp/usr/servers/defaultServer/dropins 
 $ docker run -p 9080:9080 websphere-liberty-runtime-test
