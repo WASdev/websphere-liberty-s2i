@@ -10,7 +10,7 @@ env:
   CEKIT_VERSION: 3.2.1
 jobs:
   wasci:
-    name: WebSphere Liberty S2I Build and Test
+    name: WebSphere Liberty S2I Build and Test 
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
