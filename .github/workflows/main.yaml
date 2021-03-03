@@ -10,7 +10,7 @@ env:
   CEKIT_VERSION: 3.2.1
 jobs:
   wasci:
-    name: WebSphere Liberty S2I Build and Test
+    name: WebSphere Liberty S2I Build and Test 
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -64,13 +64,9 @@ jobs:
            sudo mv s2i /usr/bin
            which s2i
            s2i version
-      - name: Build 
-        run: |
-          . ~/cekit${{ env.CEKIT_VERSION }}/bin/activate
-          make
-          docker image ls
-      - name: Run Tests
+      - name: Build and Run Tests
         run: |          
           . ~/cekit${{ env.CEKIT_VERSION }}/bin/activate
           make test
+          docker image ls
   
