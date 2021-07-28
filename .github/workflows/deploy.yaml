@@ -72,8 +72,7 @@ jobs:
             echo ${JAVA8_IMAGE_VERSION}, ${JAVA8_RUNTIME_IMAGE_VERSION}, ${JAVA11_IMAGE_VERSION}, ${JAVA11_RUNTIME_IMAGE_VERSION}
           
             docker login -u="${{ secrets.DOCKER_USERID }}" -p="${{ secrets.DOCKER_PASSWORD }}"
-            echo Using ${JAVA8_IMAGE_VERSION} as 'latest'
-            docker tag ${IMAGE_NAME}:${JAVA8_IMAGE_VERSION} ${IMAGE_NAME}:latest
+ 
             docker push ${IMAGE_NAME}:${JAVA8_IMAGE_VERSION}
             docker push ${IMAGE_NAME}:${JAVA8_RUNTIME_IMAGE_VERSION}
             docker push ${IMAGE_NAME}:${JAVA11_IMAGE_VERSION}
