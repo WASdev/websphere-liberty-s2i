@@ -1,7 +1,7 @@
 name: WebSphere Liberty S2I Continuous Integration
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, workflow_dispatch]
     paths-ignore:
       - 'docs/**'
 env:
