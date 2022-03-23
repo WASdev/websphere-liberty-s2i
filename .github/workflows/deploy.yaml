@@ -2,6 +2,7 @@ name: WebSphere Liberty s2i Image Deployment
 on:
   release:
     types: [published]
+  workflow_dispatch:
 env:
   LANG: en_US.UTF-8
   S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/latest
