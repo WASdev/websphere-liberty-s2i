@@ -37,7 +37,7 @@ using standalone [S2I](https://github.com/openshift/source-to-image) and then ru
 resulting image with [Docker](http://docker.io) execute:
 
 ```
-$ s2i build  https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:latest websphere-liberty-test
+$ s2i build  https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:java8 websphere-liberty-test
 $ docker run -p 9080:9080 websphere-liberty-test
 ```
 
@@ -51,7 +51,7 @@ S2I Runtime Images
 Use the following commands to build and test a lightweight runtime image
 
 ```
-$ s2i build https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:20.0.0.12-java8 websphere-liberty-runtime-test --runtime-image ibmcom/websphere-liberty-s2i:20.0.0.12-runtime-java8 --runtime-artifact /opt/ibm/wlp/usr/servers/defaultServer/dropins 
+$ s2i build https://github.com/WASdev/sample.ferret.git ibmcom/websphere-liberty-s2i:java8 websphere-liberty-runtime-test --runtime-image ibmcom/websphere-liberty-s2i:runtime-java8 --runtime-artifact /opt/ibm/wlp/usr/servers/defaultServer/dropins 
 $ docker run -p 9080:9080 websphere-liberty-runtime-test
 ```
 
