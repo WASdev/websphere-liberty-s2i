@@ -45,9 +45,6 @@ else
     cp -R $OUTPUT_DIR/src/wlp/usr /opt/ibm/wlp
   fi
 
-  echo "Output dir contents: "
-  find $OUTPUT_DIR
-
   if [ -d $OUTPUT_DIR/dropins ]; then 
     cp -R $OUTPUT_DIR/dropins/* $SERVER_DIR/dropins
   fi
