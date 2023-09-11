@@ -9,7 +9,7 @@ The built S2I image can be run using [Docker](https://docker.io).
 
 Building the images
 ===================
-Images are built using [docker community edition](https://docs.docker.com/) and [cekit version 3](https://cekit.readthedocs.io/en/latest/index.html).
+Images are built using [docker community edition](https://docs.docker.com/) and [cekit version 4](https://cekit.readthedocs.io/en/latest/index.html).
 Mac OSX installation and build [tips](doc/build-mac.md).
 
 Cloning the repository:
