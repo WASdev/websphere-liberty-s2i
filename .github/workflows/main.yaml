@@ -8,7 +8,7 @@ on:
 env:
   LANG: en_US.UTF-8
   S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.9
-  CEKIT_VERSION: 4.9.0
+  CEKIT_VERSION: 4.9.1
 jobs:
   wasci:
     name: WebSphere Liberty S2I Build and Test 
