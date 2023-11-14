@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 env:
   LANG: en_US.UTF-8
-  S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.8
-  CEKIT_VERSION: 4.8.0
+  S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.9
+  CEKIT_VERSION: 4.9.0
 jobs:
   wasci:
     name: WebSphere Liberty S2I Build and Test 
