@@ -6,7 +6,7 @@ on:
 env:
   LANG: en_US.UTF-8
   S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.9
-  CEKIT_VERSION: 4.9.1
+  CEKIT_VERSION: 4.7.0
   DOCKER_USERID: ${{ secrets.DOCKER_USERID }}
   LIBERTY_VERSION: ${{ github.event.release.tag_name }}
 jobs:
