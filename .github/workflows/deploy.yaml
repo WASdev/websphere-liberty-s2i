@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 env:
   LANG: en_US.UTF-8
-  S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.8
-  CEKIT_VERSION: 4.8.0
+  S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.9
+  CEKIT_VERSION: 4.9.0
   DOCKER_USERID: ${{ secrets.DOCKER_USERID }}
   LIBERTY_VERSION: ${{ github.event.release.tag_name }}
 jobs:
@@ -38,7 +38,7 @@ jobs:
           mkdir ~/cekit${{ env.CEKIT_VERSION }}
           virtualenv ~/cekit${{ env.CEKIT_VERSION }}
           . ~/cekit${{ env.CEKIT_VERSION }}/bin/activate
-          pip install cekit==${{ env.CEKIT_VERSION }} docker==6.1.2 docker-squash==1.1.0 odcs behave lxml urllib3==1.26.15
+          pip install cekit==${{ env.CEKIT_VERSION }} docker==6.1.2 docker-squash odcs behave lxml urllib3==1.26.15
       - name: install s2i binary
         run: |
           echo ===== Installing s2i from ${{ env.S2I_URL }} =====
