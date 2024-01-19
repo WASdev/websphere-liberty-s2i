@@ -2,13 +2,13 @@ schema_version: 1
 
 name: maven
 version: 1.0
-description: "Module used to install Maven 3.8.8"
+description: "Module used to install Maven 3.9.4"
 
 # Defined artifacts that are used to build the image
 artifacts:
   - name: maven.tar.gz
-    url: https://www.apache.org/dist/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
-    sha512: 53b068b5adff07ddc7053e7a77a6b5e5aed869ee49693c196d2fa799f75f6cdd1312239232eda33d50e75791487cd9104f21974cf93906f8668d0d888deedfe5
+    url: https://www.apache.org/dist/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz
+    sha512: deaa39e16b2cf20f8cd7d232a1306344f04020e1f0fb28d35492606f647a60fe729cc40d3cba33e093a17aed41bd161fe1240556d0f1b80e773abd408686217e
 
 execute:
   - script: install.sh
