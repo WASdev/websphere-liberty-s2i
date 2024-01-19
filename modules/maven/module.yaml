@@ -8,7 +8,7 @@ description: "Module used to install Maven 3.8.8"
 artifacts:
   - name: maven.tar.gz
     url: https://www.apache.org/dist/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
-    sha512: 332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
+    sha512: 53b068b5adff07ddc7053e7a77a6b5e5aed869ee49693c196d2fa799f75f6cdd1312239232eda33d50e75791487cd9104f21974cf93906f8668d0d888deedfe5
 
 execute:
   - script: install.sh
