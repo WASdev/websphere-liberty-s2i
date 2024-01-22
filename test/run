@@ -21,7 +21,7 @@ DEPLOY_TO_APPS_VAR="-e DEPLOY_TO_APPS=true"
 
 # Since we built the image locally, we don't want S2I attempt to pull
 # it from Docker hub
-s2i_args="--pull-policy=never"
+s2i_args="--pull-policy=never --loglevel 5"
 
 test_port=9080
 test_root=sample
@@ -60,7 +60,7 @@ prepare() {
 
   echo  "DOCKER_API_VERSION ${DOCKER_API_VERSION}"
   echo "s2i build ${s2i_args} ${test_dir}/$app ${BUILD_IMAGE_NAME}:${IMAGE_VERSION} ${BUILD_IMAGE_NAME}-testapp $@"
-  s2i build ${s2i_args} ${test_dir}/$app ${BUILD_IMAGE_NAME}:${IMAGE_VERSION} ${BUILD_IMAGE_NAME}-testapp $@ >& $s2i_log_file
+  s2i build ${s2i_args} ${test_dir}/$app ${BUILD_IMAGE_NAME}:${IMAGE_VERSION} ${BUILD_IMAGE_NAME}-testapp $@
   echo "s2i build ${s2i_args} ${test_dir}/$app ${BUILD_IMAGE_NAME}:${IMAGE_VERSION} ${BUILD_IMAGE_NAME}-runtime-testapp --runtime-image ${BUILD_IMAGE_NAME}:${RUNTIME_IMAGE_VERSION} --runtime-artifact /opt/ibm/wlp/usr $@"
   s2i build ${s2i_args} ${test_dir}/$app ${BUILD_IMAGE_NAME}:${IMAGE_VERSION} ${BUILD_IMAGE_NAME}-runtime-testapp --runtime-image ${BUILD_IMAGE_NAME}:${RUNTIME_IMAGE_VERSION} --runtime-artifact /opt/ibm/wlp/usr $@ >& $s2i_log_file
 
@@ -78,7 +78,7 @@ run_test_application() {
 
 cleanupContainer() {
    echo "Cleanup for test, cid $(cat $cid_file)"
-  if container_exists; then  
+  if container_exists; then
     if [[ $1 != "0" ]]; then
       echo "Viewing docker logs"
       docker logs $(cat $cid_file)
@@ -89,7 +89,7 @@ cleanupContainer() {
    rm -f $cid_file
 }
 
-cleanupImages() {  
+cleanupImages() {
   if image_exists ${BUILD_IMAGE_NAME}-testapp; then
     docker rmi -f ${BUILD_IMAGE_NAME}-testapp
   fi
@@ -97,7 +97,7 @@ cleanupImages() {
     docker rmi -f ${BUILD_IMAGE_NAME}-runtime-testapp
   fi
   rm -rf ${test_dir}/test-app/.git
- 
+
 }
 
 cleanupFinal() {
