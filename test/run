@@ -78,7 +78,7 @@ run_test_application() {
 
 cleanupContainer() {
    echo "Cleanup for test, cid $(cat $cid_file)"
-  if container_exists; then  
+  if container_exists; then
     if [[ $1 != "0" ]]; then
       echo "Viewing docker logs"
       docker logs $(cat $cid_file)
@@ -89,7 +89,7 @@ cleanupContainer() {
    rm -f $cid_file
 }
 
-cleanupImages() {  
+cleanupImages() {
   if image_exists ${BUILD_IMAGE_NAME}-testapp; then
     docker rmi -f ${BUILD_IMAGE_NAME}-testapp
   fi
@@ -97,7 +97,7 @@ cleanupImages() {
     docker rmi -f ${BUILD_IMAGE_NAME}-runtime-testapp
   fi
   rm -rf ${test_dir}/test-app/.git
- 
+
 }
 
 cleanupFinal() {
