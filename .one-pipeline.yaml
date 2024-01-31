@@ -7,7 +7,7 @@ setup:
 
     set_env S2I_URI "https://api.github.com/repos/openshift/source-to-image/releases/tags/v1.3.9"
     set_env CEKIT_VERSION "4.8.0"
-    set_env LIBERTY_VERSION "23.0.0.12"
+    set_env LIBERTY_VERSION "24.0.0.1"
 
 test:
   abort_on_failure: false
@@ -61,6 +61,9 @@ containerize:
   abort_on_failure: true
   dind: true
   image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.12
+  env:
+  - name: DOCKER_HOST
+    value: tcp://localhost:2376
   script: |
     #!/usr/bin/env bash
     echo "*** OS release ***"
