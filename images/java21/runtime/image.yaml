@@ -41,7 +41,6 @@ modules:
 
   # Install selected modules (in order)
   install:
-    - name: java21
     - name: websphere-s2i
 
 run:
