@@ -2,7 +2,7 @@ schema_version: 1
 
 name: ibmcom/websphere-liberty-s2i
 version: 24.0.0.1-runtime-java21
-from: ibmcom/websphere-liberty:24.0.0.1-full-java21-openj9-ubi
+from: icr.io/appcafe/websphere-liberty:24.0.0.1-full-java21-openj9-ubi
 description: "IBM WebSphere Liberty UBI runtime image with OpenJDK 21"
 labels:
     - name: io.k8s.description
