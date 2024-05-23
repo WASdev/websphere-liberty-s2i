@@ -102,7 +102,7 @@ acceptance-test:
     echo "acceptance-test stage"
     load_file pub_file > wls2i.pub
     gpg2 --import wls2i.pub
-    export fingerprint=$(gpg --fingerprint --with-colons | grep fpr | tr -d 'fpr:')
+    export fingerprint=$(gpg --fingerprint --with-colons | grep fpr | tail -n1 | tr -d 'fpr:')
     echo "fingerprint=$fingerprint"
     mkdir -p images
     if which list_artifacts >/dev/null; then
