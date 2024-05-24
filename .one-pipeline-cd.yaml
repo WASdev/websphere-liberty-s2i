@@ -102,6 +102,7 @@ acceptance-test:
     echo "acceptance-test stage"
     load_file pub_file > wls2i.pub
     gpg2 --import wls2i.pub
+    gpg --fingerprint --with-colons
     export fingerprint=$(gpg --fingerprint --with-colons | grep fpr | tail -n1 | tr -d 'fpr:')
     echo "fingerprint=$fingerprint"
     mkdir -p images
@@ -118,6 +119,12 @@ acceptance-test:
           skopeo copy --src-creds $(get_env ibmcloud-api-user):$(get_env ibmcloud-api-key) docker://${image_name} dir:./imgtemp
           echo "Image contents"
           find imgtemp
+          echo "******  KLO DEBUG *****"
+          echo "fingerprint=${fingerprint}"
+          echo "image_name=${image_name}"
+          ls -l ./imgtemp/manifest.json 
+          cat ./imgtemp/manifest.json
+          ls -l ./imgtemp/signature-1
           skopeo standalone-verify ./imgtemp/manifest.json ${image_name} ${fingerprint} ./imgtemp/signature-1
           if [[ $? != 0 ]]; then
             exit 1
