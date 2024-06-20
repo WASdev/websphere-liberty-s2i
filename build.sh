@@ -8,7 +8,6 @@ JAVA21_BASE_IMAGE_NAME="${NAMESPACE:=icr.io}/appcafe/websphere-liberty:${LIBERTY
 
 echo "Temp fix to add maven to cekit cache because module is not downloading in 1Pipeline" 
 cekit-cache add ${SCRIPT_DIR}/prereqs/maven/maven.tar.gz --sha512 332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
-#cekit-cache add ${SCRIPT_DIR}/prereqs/java21/semeru21.tar.gz --sha256 7a7a186a7a48537519917331ec91d9180b961dcc7ea0f627a23fa369edab6f16
 
 echo "Building Java 8 Builder Image ${JAVA8_BASE_IMAGE_NAME}"
 pushd ${SCRIPT_DIR}/images/java8/builder
