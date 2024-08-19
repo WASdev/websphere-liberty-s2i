@@ -32,6 +32,8 @@ Example values for IMAGE_DIR are `images/java8/builder`, `images/java8/runtime`,
 
 S2I Usage
 ---------
+All WebSphere Liberty s2i images are stored on icr.io.  See the [Release Notes](https://github.com/WASdev/websphere-liberty-s2i/releases) for the available tags.
+
 To build a simple [jee application](https://github.com/openshift/openshift-jee-sample)
 using standalone [S2I](https://github.com/openshift/source-to-image) and then run the
 resulting image with [Docker](http://docker.io) execute:
@@ -49,8 +51,6 @@ $ curl 127.0.0.1:9080/ferret/
 S2I Runtime Images
 ------------------
 Use the following commands to build and test a lightweight runtime image
-
-All WebSphere Liberty s2i images are stored on icr.io.  See the [Release Notes](https://github.com/WASdev/websphere-liberty-s2i/releases) for the available tags.
 
 ```
 $ s2i build https://github.com/WASdev/sample.ferret.git icr.io/appcafe/websphere-liberty-s2i:java8 websphere-liberty-runtime-test --runtime-image icr.io/appcafe/websphere-liberty-s2i:runtime-java8 --runtime-artifact /opt/ibm/wlp/usr/servers/defaultServer/dropins
