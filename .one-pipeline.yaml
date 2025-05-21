@@ -88,12 +88,12 @@ containerize:
       fi
     fi
 
-    dnf -y install python3-devel krb5-devel
+    dnf -y install python3.11-devel krb5-devel
     # Download cekit
     CEKIT_VERSION=$(get_env CEKIT_VERSION)
     pip3 install virtualenv
     mkdir ~/cekit${CEKIT_VERSION}
-    python3 -m venv ~/cekit${CEKIT_VERSION}
+    python3.11 -m venv ~/cekit${CEKIT_VERSION}
     pip3 install --upgrade pip
     pip3 install cekit==${CEKIT_VERSION} docker==5.0.3 docker-squash==1.2.0 odcs behave lxml urllib3==1.26.15 requests
     #pip3 install cekit==${CEKIT_VERSION} docker==5.0.3 docker-squash= odcs behave lxml setuptools_rust urllib3==1.26.15 packaging==21.3 requests
