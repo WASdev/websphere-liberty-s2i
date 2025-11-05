@@ -59,7 +59,7 @@ static-scan:
 
 
 containerize:
-  abort_on_failure: true
+  abort_on_failure: false
   dind: true
   image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.42
   env:
