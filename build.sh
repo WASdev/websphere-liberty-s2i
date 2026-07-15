@@ -7,17 +7,22 @@ JAVA11_BASE_IMAGE_NAME="${NAMESPACE:=icr.io}/appcafe/websphere-liberty:${LIBERTY
 JAVA17_BASE_IMAGE_NAME="${NAMESPACE:=icr.io}/appcafe/websphere-liberty:${LIBERTY_VERSION}-full-java17-openj9-ubi"
 JAVA21_BASE_IMAGE_NAME="${NAMESPACE:=icr.io}/appcafe/websphere-liberty:${LIBERTY_VERSION}-full-java21-openj9-ubi-minimal"
 
+docker pull icr.io/appcafe/websphere-liberty:${LIBERTY_VERSION}-full-java8-openj9-ubi
+docker pull icr.io/appcafe/websphere-liberty:${LIBERTY_VERSION}-full-java11-openj9-ubi
+docker pull icr.io/appcafe/websphere-liberty:${LIBERTY_VERSION}-full-java17-openj9-ubi
+docker pull icr.io/appcafe/websphere-liberty:${LIBERTY_VERSION}-full-java21-openj9-ubi-minimal
+
 echo "Temp fix to add maven to cekit cache because module is not downloading in 1Pipeline" 
 cekit-cache add ${SCRIPT_DIR}/maven/maven.tar.gz --sha512 332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
 
 echo "Building Java 8 Builder Image ${JAVA8_BASE_IMAGE_NAME}"
 pushd ${SCRIPT_DIR}/images/java8/builder
-cekit build --overrides '{"from": "'"${JAVA8_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA8_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA8_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA8_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 echo "Building Java 8 Runtime Image"
 pushd ${SCRIPT_DIR}/images/java8/runtime
-cekit build --overrides '{"from": "'"${JAVA8_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA8_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA8_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA8_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 # Test Java 8 image if TEST_MODE is set
@@ -28,12 +33,12 @@ fi
 
 echo "Building Java 11 Builder Image"
 pushd ${SCRIPT_DIR}/images/java11/builder
-cekit build --overrides '{"from": "'"${JAVA11_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA11_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA11_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA11_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 echo "Building Java 11 Runtime Image"
 pushd ${SCRIPT_DIR}/images/java11/runtime
-cekit build --overrides '{"from": "'"${JAVA11_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA11_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA11_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA11_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 # Test Java 11 image if TEST_MODE is set
@@ -44,12 +49,12 @@ fi
 
 echo "Building Java 17 Builder Image"
 pushd ${SCRIPT_DIR}/images/java17/builder
-cekit build --overrides '{"from": "'"${JAVA17_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA17_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA17_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA17_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 echo "Building Java 17 Runtime Image"
 pushd ${SCRIPT_DIR}/images/java17/runtime
-cekit build --overrides '{"from": "'"${JAVA17_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA17_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA17_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA17_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 # Test Java 17 image if TEST_MODE is set
@@ -60,12 +65,12 @@ fi
 
 echo "Building Java 21 Builder Image"
 pushd ${SCRIPT_DIR}/images/java21/builder
-cekit build --overrides '{"from": "'"${JAVA21_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA21_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA21_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA21_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 echo "Building Java 21 Runtime Image"
 pushd ${SCRIPT_DIR}/images/java21/runtime
-cekit build --overrides '{"from": "'"${JAVA21_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA21_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
+cekit build --pull=never --overrides '{"from": "'"${JAVA21_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA21_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker
 popd
 
 # Test Java 21 image if TEST_MODE is set
