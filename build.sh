@@ -56,7 +56,7 @@ popd
 
 echo "Building Java 17 Runtime Image"
 pushd ${SCRIPT_DIR}/images/java17/runtime
-cekit build --overrides '{"from": "'"${JAVA17_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA17_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker 
+cekit build --overrides '{"from": "'"${JAVA17_BASE_IMAGE_NAME}"'"}' --overrides '{"version": "'"${JAVA17_RUNTIME_IMAGE_VERSION}"'"}' --overrides '{"name": "'"${PROD_NAMESPACE:=ibmcom}/websphere-liberty-s2i"'"}' docker  --no-squash
 popd
 
 # Test Java 17 image if TEST_MODE is set
